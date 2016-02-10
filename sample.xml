@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE dblp SYSTEM "dblp.dtd">
+<dblp>
+<www mdate="2005-10-06" key="persons/Ley93">
+<author>Michael Ley</author>
+<title>DBLP.uni-trier.de: Computer Science Bibliography</title>
+<url>http://dblp.uni-trier.de/</url>
+<year>1993</year>
+</www>
+
+<inproceedings mdate="2012-09-18" key="persons/Codd74">
+<author>E. F. Codd</author>
+<title>Seven Steps to Rendezvous with the Casual User.</title>
+<month>January</month>
+<year>1974</year>
+<pages>179-200</pages>
+<booktitle>IFIP Working Conference Data Base Management</booktitle>
+<url>db/conf/ds/dbm74.html#Codd74</url>
+<note>IBM Research Report RJ 1333, San Jose, California</note>
+<cdrom>DS/DS1974/P179.pdf</cdrom>
+</inproceedings>
+
+<article mdate="2002-01-03" key="persons/CoddD74">
+<author>E. F. Codd</author>
+<author>C. J. Date</author>
+<title>Interactive Support for Non-Programmers: The Relational and Network Approaches.</title>
+<journal>IBM Research Report, San Jose, California</journal>
+<volume>RJ1400</volume>
+<month>June</month>
+<year>1974</year>
+</article>
+
+<article mdate="2002-01-03" key="persons/Hall74">
+<author>Patrick A. V. Hall</author>
+<title>Common Subexpression Identification in General Algebraic Systems.</title>
+<journal>Technical Rep. UKSC 0060, IBM United Kingdom Scientific Centre</journal>
+<month>November</month>
+<year>1974</year>
+</article>
+
+<article mdate="2002-01-03" key="persons/Codd81">
+<author>E. F. Codd</author>
+<title>The Capabilities of Relational Database Management Systems.</title>
+<journal>IBM Research Report, San Jose, California</journal>
+<month>May</month>
+<year>1981</year>
+<volume>RJ3132</volume>
+<cdrom>ibmTR/rj3132.pdf</cdrom>
+<ee>db/labs/ibm/RJ3132.html</ee>
+</article>
+
+
+
+<www mdate="2005-10-06" key="persons/Ley2003">
+<author>Michael Ley</author>
+<title>ACM SIGMOD Contribution Award 2003 Acceptance Speech</title>
+<year>2003</year>
+<url>http://www.informatik.uni-trier.de/~ley/db/about/contributionaward03.html</url>
+</www>
+
+<article mdate="2012-02-20" key="persons/LeyCHM11">
+<author>Rita Ley</author>
+<author>Markus Casper</author>
+<author>Hugo Hellebrand</author>
+<author>Ralf Merz</author>
+<title>Catchment classification by runoff behaviour with self-organizing maps (SOM)</title>
+<journal>Hydrology and Earth System Sciences</journal>
+<volume>15</volume>
+<pages>2947-2962</pages>
+<year>2011</year>
+<ee>http://dx.doi.org/10.5194/hess-15-2947-2011</ee>
+<url>http://dx.doi.org/10.5194/hess-15-2947-2011</url>
+</article>
+
+
+<article mdate="2014-05-26" key="dblpnote/error" publtype="informal publication">
+<title>(error)</title>
+</article>
+<article mdate="2013-02-13" key="dblpnote/duplicate" publtype="informal publication">
+<title>(duplicate entry was deleted)</title>
+</article>
+<article mdate="2013-02-12" key="dblpnote/retracted" publtype="informal publication">
+<title>(paper retracted)</title>
+</article>
+<article mdate="2013-02-10" key="dblpnote/withdrawn" publtype="informal publication">
+<title>(paper withdrawn)</title>
+</article>
+<article mdate="2013-02-12" key="dblpnote/neverpublished" publtype="informal publication">
+<title>(was never published)</title>
+</article>
+<article mdate="2013-02-12" key="dblpnote/ellipsis" publtype="informal publication">
+<title>&#8230;</title>
+</article>
+
+
+<incollection mdate="2011-11-25" key="reference/algo/Makinen08" publtype="encyclopedia entry">
+<author>Veli M&auml;kinen</author>
+<title>Compressed Suffix Array.</title>
+<year>2008</year>
+<booktitle>Encyclopedia of Algorithms</booktitle>
+<ee>http://dx.doi.org/10.1007/978-0-387-30162-4_82</ee>
+<crossref>reference/algo/2008</crossref>
+<url>db/reference/algo/algo2008.html#Makinen08</url>
+</incollection>
+<incollection mdate="2011-11-25" key="reference/algo/X08o" publtype="encyclopedia entry">
+<title>Atomic Scan.</title>
+<year>2008</year>
+<booktitle>Encyclopedia of Algorithms</booktitle>
+<ee>http://dx.doi.org/10.1007/978-0-387-30162-4_41</ee>
+<crossref>reference/algo/2008</crossref>
+<url>db/reference/algo/algo2008.html#X08o</url>
+</incollection>
+<incollection mdate="2011-11-25" key="reference/algo/Huang08a" publtype="encyclopedia entry">
+<author>Li-Sha Huang</author>
+<title>General Equilibrium.</title>
+<year>2008</year>
+<booktitle>Encyclopedia of Algorithms</booktitle>
+<ee>http://dx.doi.org/10.1007/978-0-387-30162-4_160</ee>
+<crossref>reference/algo/2008</crossref>
+<url>db/reference/algo/algo2008.html#Huang08a</url>
+</incollection>
+
+<incollection mdate="2011-11-25" key="reference/algo/Young08a" publtype="encyclopedia entry">
+<author>Neal E. Young</author>
+<title>Online Paging and Caching.</title>
+<year>2008</year>
+<booktitle>Encyclopedia of Algorithms</booktitle>
+<ee>http://dx.doi.org/10.1007/978-0-387-30162-4_267</ee>
+<crossref>reference/algo/2008</crossref>
+<url>db/reference/algo/algo2008.html#Young08a</url>
+</incollection>
+<incollection mdate="2015-01-18" key="reference/algo/Sapatnekar15a" publtype="encyclopedia entry">
+<author>Sachin S. Sapatnekar</author>
+<title>Statistical Timing Analysis.</title>
+<year>2015</year>
+<booktitle>Encyclopedia of Algorithms</booktitle>
+<ee>http://dx.doi.org/10.1007/978-3-642-27848-8_742-1</ee>
+<crossref>reference/algo/2015</crossref>
+<url>db/reference/algo/algo2015.html#Sapatnekar15a</url>
+</incollection>
+<incollection mdate="2011-11-25" key="reference/algo/Feldman08a" publtype="encyclopedia entry">
+<author>Jon Feldman</author>
+<title>LP Decoding.</title>
+<year>2008</year>
+<booktitle>Encyclopedia of Algorithms</booktitle>
+<ee>http://dx.doi.org/10.1007/978-0-387-30162-4_216</ee>
+<crossref>reference/algo/2008</crossref>
+<url>db/reference/algo/algo2008.html#Feldman08a</url>
+</incollection>
+<incollection mdate="2011-11-25" key="reference/algo/Calinescu08" publtype="encyclopedia entry">
+<author>Gruia Calinescu</author>
+<title>Multiway Cut.</title>
+<year>2008</year>
+<booktitle>Encyclopedia of Algorithms</booktitle>
+<ee>http://dx.doi.org/10.1007/978-0-387-30162-4_253</ee>
+<crossref>reference/algo/2008</crossref>
+<url>db/reference/algo/algo2008.html#Calinescu08</url>
+</incollection>
+<incollection mdate="2011-11-25" key="reference/algo/Guerraoui08" publtype="encyclopedia entry">
+<author>Rachid Guerraoui</author>
+<title>Failure Detectors.</title>
+<year>2008</year>
+<booktitle>Encyclopedia of Algorithms</booktitle>
+<ee>http://dx.doi.org/10.1007/978-0-387-30162-4_140</ee>
+<crossref>reference/algo/2008</crossref>
+<url>db/reference/algo/algo2008.html#Guerraoui08</url>
+</incollection>
+
+<www mdate="2009-06-09" key="homepages/23/934">
+<author>Gudrun Wagner</author>
+<title>Home Page</title>
+</www>
+<www mdate="2009-06-09" key="homepages/23/378">
+<author>Maximilian Walther</author>
+<title>Home Page</title>
+</www>
+</dblp>
