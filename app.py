@@ -1,13 +1,57 @@
 __author__ = 'alexisgallepe'
 
 import os
-from bottle import route, run, template
+from bottle import route, run, template, abort
 import xmlParser
 import requests
 import json
 
 
 publications = []
+
+
+@route('/publications/<id:int>')
+def get_publication(id):
+
+    global publications
+    min = 0
+    max = len(publications)
+    print(max)
+    if id < max and id >= min:
+        return publications[id]
+    else:
+        abort(401,"problem with id parameter")
+
+
+@route('/authors/<name>')
+def get_author_infos(name):
+    global publications
+    nb_publications = 0
+    nb_co_authors = 0
+
+    for publication in publications:
+        if name in publication["authors"] :
+            print(publication)
+            nb_publications+=1
+            nb_co_authors = len(publication["authors"])
+            print(publication["authors"])
+
+    return json.dumps({ "number_publications":nb_publications , "number_co_authors":nb_co_authors })
+
+
+@route('/authors/<name>/publications')
+
+@route('/authors/<name>/coauthors')
+
+@route('/search/authors/{searchString}')
+
+@route('/search/publications/{searchString}')
+
+@route('/authors/{name_origine}/distance/{name_destination}')
+
+
+
+
 
 @route('/')
 def index():
@@ -56,19 +100,13 @@ def get_tree_by_id(id):
         return "error"
 
 
-@route('/licence')
-def content():
-    return json.dumps(parsedTrees)
-
 def parseFile():
     parser = xmlParser.XmlParser()
     parser.parse("sample.xml",50)
     return parser.publications
 
 if __name__ == '__main__':
-    print("Parsing File")
     publications = parseFile()
-
 
     port = int(os.environ.get('PORT', 1337))
     run(host='0.0.0.0', port=port, debug=True)

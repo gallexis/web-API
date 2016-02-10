@@ -14,8 +14,10 @@ class XmlParser(xml.sax.ContentHandler):
         self.publications_index = ["article","inproceedings","proceedings","book","incollection","phdthesis","masterthesis"]
         self.fields_index = ["author", "title", "year", "journal","booktitle"]
 
-        self.publication = {"author":"", "title":"", "year":"", "journal":"","booktitle":""}
+        self.publication = {"authors":[], "title":"", "year":"", "journal":"","booktitle":""}
         self.publications = []
+
+        self.authors = []
 
     def parse(self, sourceFileName, last_years_wanted):
         self.last_years_wanted = last_years_wanted
@@ -24,7 +26,6 @@ class XmlParser(xml.sax.ContentHandler):
 
     def startElement(self, name, attrs):
         try:
-
             if name in self.publications_index:
                 self.publicationBalise = name
 
@@ -41,10 +42,14 @@ class XmlParser(xml.sax.ContentHandler):
             if self.publicationBalise == name:
                 self.publicationBalise = ""
 
+                self.publication["authors"] = self.authors
+
                 # if (2016 - 5) <= 2001  ---> False
                 if not self.publication["year"] == '' and (date.today().year - self.last_years_wanted) <= int(self.publication["year"]):
                     self.publications.append(self.publication)
-                    self.publication = {"author":"", "title":"", "year":"", "journal":"","booktitle":""}
+                    self.publication = {"authors":[], "title":"", "year":"", "journal":"","booktitle":""}
+
+                self.authors = []
 
             if self.fieldBalise == name:
                 self.fieldBalise = ""
@@ -56,11 +61,12 @@ class XmlParser(xml.sax.ContentHandler):
 
     def characters(self, content):
         try:
-            if not self.fieldBalise == "":
+            if not self.publicationBalise == "" and self.fieldBalise == "author":
+                self.authors.append(content)
+
+            if not self.fieldBalise == "" and not self.fieldBalise == "author":
                 self.publication[self.fieldBalise] = content
 
         except Exception as e:
             print(e)
             pass
-
-
