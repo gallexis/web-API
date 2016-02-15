@@ -20,7 +20,7 @@ def get_publication(id):
     if id < max and id >= min:
         return publications[id]
     else:
-        abort(401,"problem with id parameter")
+        return json.dumps({ "error": "problem with id parameter" })
 
 
 @route('/authors/<author_name>')
@@ -68,14 +68,17 @@ def get_coauthors(author_name):
 @route('/search/authors/<searchString>')
 def search_authors(searchString):
 
-    regex = searchString.replace("%","(.)").replace("*","(.)*")
+    matchs = set()
+
+    regex = searchString.replace("%","(.)").replace("*","(.)*").lower()
+
     for publication in publications:
         for author in publication["authors"]:
-            print(regex,' : ',author)
-            if re.match(regex, author):
-                return get_author_infos(author)
 
-    return json.dumps({ "error": "Author not found" })
+            if re.match(regex, author.lower()):
+                matchs.add( author )
+
+    return json.dumps({ "authors": list(matchs) })
 
 
 @route('/search/publications/<searchString>')
