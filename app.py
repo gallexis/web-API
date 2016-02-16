@@ -6,10 +6,9 @@ import xmlParser
 import requests
 import json
 import re
-
+import Tree
 
 publications = []
-
 
 @route('/publications/<id:int>')
 def get_publication(id):
@@ -48,7 +47,6 @@ def get_author_publications(author_name):
     return json.dumps({ "author":author_name , "publications":list_publications })
 
 
-
 @route('/authors/<author_name>/coauthors')
 def get_coauthors(author_name):
 
@@ -69,7 +67,6 @@ def get_coauthors(author_name):
 def search_authors(searchString):
 
     matchs = set()
-
     regex = searchString.replace("%","(.)").replace("*","(.)*").lower()
 
     for publication in publications:
@@ -78,9 +75,10 @@ def search_authors(searchString):
             if re.match(regex, author.lower()):
                 matchs.add( author )
 
-    return json.dumps({ "authors": list(matchs) })
+    return json.dumps( {"authors": list(matchs)} )
 
 
+"""
 @route('/search/publications/<searchString>')
 
 @route('/authors/<name_origine>/distance/<name_destination>')
@@ -88,29 +86,10 @@ def search_authors(searchString):
 
 
 
-
-
-
 @route('/title/<url:path>')
-def title(url):
-    r = requests.get(url)
-
-    parser = MyHTMLParser()
-    parser.feed(r.text)
-
-    return "Titre: " + parser.title
-
-
 @route('/arbre/<id:int>')
-def get_tree_by_id(id):
-    min = 0
-    max = len(parsedTrees)
-    print(max)
+"""
 
-    if id <= max and id >= min:
-        return parsedTrees[id]
-    else:
-        return "error"
 
 
 def parseFile():
@@ -120,6 +99,8 @@ def parseFile():
 
 if __name__ == '__main__':
     publications = parseFile()
-
-    port = int(os.environ.get('PORT', 8080))
-    run(host='0.0.0.0', port=port, debug=True)
+    t = Tree.Author("Codd",[])
+    t.rec_authors(publications)
+    print(t.search_author_distance("Alexis"))
+    #port = int(os.environ.get('PORT', 8080))
+    #run(host='0.0.0.0', port=port, debug=True)
