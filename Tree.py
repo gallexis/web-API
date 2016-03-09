@@ -5,13 +5,14 @@ class Author:
 
 
     def __init__(self,nameAuthor, exclude_list, depth=0):
+
         self.nameAuthor = nameAuthor
-        self.exclude_list = exclude_list.append(nameAuthor)
+        self.exclude_list = exclude_list
+        self.exclude_list.append(nameAuthor)
         self.depth = depth
 
         self.coauthors = []
         self.authors = []
-        self.exclude_list = []
 
 
 
@@ -44,6 +45,7 @@ class Author:
 
         print(self.coauthors, ":", self.nameAuthor, ":", self.exclude_list)
         for author in self.coauthors:
+
             t = Author(author, self.exclude_list, self.depth + 1)
             t.rec_authors(publications)
             self.authors.append(t)
@@ -51,17 +53,20 @@ class Author:
 
     def search_author_distance(self,name_author):
 
-        search = None
+        depths = []
 
         for author in self.authors:
             if author.nameAuthor == name_author:
-                return self.depth
+                depths.append(self.depth)
 
-            depth = author.search_author_distance(name_author)
-            if depth is not None:
-                return depth
+            sons_depths = author.search_author_distance(name_author)
+            if sons_depths is not None:
+                depths.append(sons_depths)
 
 
-        return search
+        if depths == []:
+            return None
+        else:
+            return min(depths)
 
 
