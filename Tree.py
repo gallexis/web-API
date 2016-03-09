@@ -14,7 +14,6 @@ class Author:
         self.coauthors = []
         self.authors = []
 
-
     """
         Put in self.coauthors every co-author of self.nameAuthor
     """

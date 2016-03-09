@@ -62,10 +62,10 @@ class XmlParser(xml.sax.ContentHandler):
     def characters(self, content):
         try:
             if not self.publicationBalise == "" and self.fieldBalise == "author":
-                self.authors.append(content)
+                self.authors.append(content.lower())
 
             if not self.fieldBalise == "" and not self.fieldBalise == "author":
-                self.publication[self.fieldBalise] = content
+                self.publication[self.fieldBalise] = content.lower()
 
         except Exception as e:
             print(e)

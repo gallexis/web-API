@@ -1,7 +1,7 @@
 __author__ = 'alexisgallepe'
 
 import os
-from bottle import route, run, template, abort
+from bottle import route, run, request, response, template, abort
 import xmlParser
 import requests
 import json
@@ -18,7 +18,7 @@ def get_publication(id):
     max = len(publications)
     logging.info(max)
     if id < max and id >= min:
-        return publications[id]
+        return json.dumps(publications[id])
     else:
         return json.dumps({ "error": "problem with id parameter" })
 
@@ -79,14 +79,53 @@ def search_authors(searchString):
     return json.dumps( {"authors": list(matchs)} )
 
 
+def verify_parameters(keysValues,publication):
+    if keysValues == []:
+        return True
+
+    for key,value in keysValues:
+        try:
+
+            #Autor is a particular case
+            if key == "author":
+                if not value in publication["authors"]:
+                    return False
+                else:
+                    continue
+
+            if not publication[key] == value:
+                return False
+
+        except Exception as e:
+            print(e)
+            return False
+
+    return True
+
+
+@route('/search/publications/<url>')
+def search_publication(url):
+    keysValues = []
+    url = url.lower()
+
+    try:
+        parameters = request.query["filter"].lower()
+
+        keysValues = parameters.split(",")
+        for i,key_value in enumerate(keysValues):
+            key,value = key_value.split(':')
+            keysValues[i] = (key,value)
+
+    except:
+        pass
+
+    for publication in publications:
+        if url in publication["title"] and verify_parameters(keysValues,publication):
+            return json.dumps(publication)
+
+
 """
-@route('/search/publications/<searchString>')
-
 @route('/authors/<name_origine>/distance/<name_destination>')
-
-
-
-
 @route('/title/<url:path>')
 @route('/arbre/<id:int>')
 """
@@ -103,9 +142,10 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
 
     publications = parseFile()
-    t = Tree.Author("Codd",[])
+    t = Tree.Author("codd",[])
     t.create_tree(publications)
-    logging.info(t.get_depth("Alexis"))
+    logging.info(t.get_depth("alexis"))
 
-    #port = int(os.environ.get('PORT', 8080))
-    #run(host='0.0.0.0', port=port, debug=True)
+    port = int(os.environ.get('PORT', 8080))
+    response.content_type = 'application/json'
+    run(host='0.0.0.0', port=port, debug=True)
