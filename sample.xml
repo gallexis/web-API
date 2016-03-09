@@ -52,6 +52,7 @@
 
 <article mdate="2002-01-03" key="persons/Codd81">
 <author>Patrick</author>
+<author>Michael Ley</author>
 <author>Michell</author>
 <title>Tfghf dfghd hghdfghd gfhdg.</title>
 <journal>IBM Research Report, San Jose, California</journal>
@@ -63,7 +64,7 @@
 </article>
 
 <article mdate="2002-01-03" key="persons/Codd81">
-<author>Michell</author>
+<author>Michael Ley</author>
 <author>Alexis</author>
 <title>dfghdh ghd gdfhddfh fhgfms.</title>
 <journal>IBM Research Report, San Jose, California</journal>
@@ -76,6 +77,17 @@
 
 <article mdate="2002-01-03" key="persons/Codd81">
 <author>E. F. Codd</author>
+<title>Tfff ff f ff ff ffff fffDatabase Management Systems.</title>
+<journal>IBM Research Report, San Jose, California</journal>
+<month>May</month>
+<year>1981</year>
+<volume>RJ3132</volume>
+<cdrom>ibmTR/rj3132.pdf</cdrom>
+<ee>db/labs/ibm/RJ3132.html</ee>
+</article>
+
+    <article mdate="2002-01-03" key="persons/Codd81">
+<author>Michael Ley</author>
 <title>Tfff ff f ff ff ffff fffDatabase Management Systems.</title>
 <journal>IBM Research Report, San Jose, California</journal>
 <month>May</month>

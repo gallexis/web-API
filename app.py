@@ -7,6 +7,7 @@ import requests
 import json
 import re
 import Tree
+import logging
 
 publications = []
 
@@ -15,7 +16,7 @@ def get_publication(id):
 
     min = 0
     max = len(publications)
-    print(max)
+    logging.info(max)
     if id < max and id >= min:
         return publications[id]
     else:
@@ -98,9 +99,13 @@ def parseFile():
     return parser.publications
 
 if __name__ == '__main__':
+
+    logging.basicConfig(level=logging.INFO)
+
     publications = parseFile()
     t = Tree.Author("Codd",[])
-    t.rec_authors(publications)
-    print(t.search_author_distance("Alexis"))
+    t.create_tree(publications)
+    logging.info(t.get_depth("Alexis"))
+
     #port = int(os.environ.get('PORT', 8080))
     #run(host='0.0.0.0', port=port, debug=True)
