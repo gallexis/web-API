@@ -13,7 +13,6 @@ publications = []
 
 @route('/publications/<id:int>')
 def get_publication(id):
-
     min = 0
     max = len(publications)
     logging.info(max)
@@ -27,6 +26,7 @@ def get_publication(id):
 def get_author_infos(author_name):
     nb_publications = 0
     nb_co_authors = 0
+    author_name = author_name.lower()
 
     for publication in publications:
         if author_name in publication["authors"] :
@@ -38,8 +38,8 @@ def get_author_infos(author_name):
 # ?? return uniquement les titles ??
 @route('/authors/<author_name>/publications')
 def get_author_publications(author_name):
-
     list_publications = []
+    author_name = author_name.lower()
 
     for publication in publications:
         if author_name in publication["authors"]:
@@ -50,8 +50,8 @@ def get_author_publications(author_name):
 
 @route('/authors/<author_name>/coauthors')
 def get_coauthors(author_name):
-
     list_coauthors = set()
+    author_name = author_name.lower()
 
     for publication in publications:
         if author_name in publication["authors"]:
@@ -59,14 +59,16 @@ def get_coauthors(author_name):
             for author in publication["authors"]:
                 list_coauthors.add(author)
 
-    list_coauthors.remove(author_name)
+    try:
+        list_coauthors.remove(author_name)
+    except:
+        return json.dumps({ "error": "author does not exist"})
 
     return json.dumps({ "author":author_name , "coauthors": list(list_coauthors) })
 
 
 @route('/search/authors/<searchString>')
 def search_authors(searchString):
-
     matchs = set()
     regex = searchString.replace("%","(.)").replace("*","(.)*").lower()
 
@@ -78,14 +80,13 @@ def search_authors(searchString):
 
     return json.dumps( {"authors": list(matchs)} )
 
-
+# Used in search_publication() to verify if keys:values are correct
 def verify_parameters(keysValues,publication):
     if keysValues == []:
         return True
 
     for key,value in keysValues:
         try:
-
             #Autor is a particular case
             if key == "author":
                 if not value in publication["authors"]:
@@ -124,12 +125,32 @@ def search_publication(url):
             return json.dumps(publication)
 
 
-"""
 @route('/authors/<name_origine>/distance/<name_destination>')
-@route('/title/<url:path>')
-@route('/arbre/<id:int>')
-"""
+def distance_between_authors(name_origine,name_destination):
+    does_name_origine_exists = False
+    does_name_destination_exists = False
 
+    # Verify if name_origine and name_destination exist
+    for publication in publications:
+        if name_origine in publication["authors"]:
+            does_name_origine_exists = True
+
+        if name_destination in publication["authors"]:
+            does_name_destination_exists = True
+
+    if does_name_origine_exists == False and does_name_destination_exists == False:
+        return json.dumps({ "error": "author_origine and author_destination don't exist"})
+    elif does_name_origine_exists == False:
+        return json.dumps({ "error": "author_origine doesn't exist"})
+    elif does_name_destination_exists == False:
+        return json.dumps({ "error": "author_destination doesn't exist"})
+
+
+    tree = Tree.Author(name_origine,[])
+    tree.create_tree(publications)
+    depth = tree.get_depth(name_destination)
+
+    return json.dumps({"author_origine":name_origine,"author_destination":name_destination,"depth":depth})
 
 
 def parseFile():
@@ -137,15 +158,12 @@ def parseFile():
     parser.parse("sample.xml",50)
     return parser.publications
 
+
+
 if __name__ == '__main__':
-
-    logging.basicConfig(level=logging.INFO)
-
+    logging.basicConfig(level=logging.ERROR)
     publications = parseFile()
-    t = Tree.Author("codd",[])
-    t.create_tree(publications)
-    logging.info(t.get_depth("alexis"))
 
-    port = int(os.environ.get('PORT', 8080))
     response.content_type = 'application/json'
+    port = int(os.environ.get('PORT', 8080))
     run(host='0.0.0.0', port=port, debug=True)

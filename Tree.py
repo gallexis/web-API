@@ -5,7 +5,7 @@ import logging
 class Author:
 
     def __init__(self,name_author, exclude_list, depth=1):
-        self.name_author = name_author
+        self.name_author = name_author.lower()
         self.depth = depth
 
         self.exclude_list = exclude_list
@@ -56,7 +56,6 @@ class Author:
         # list( set(  .. ) ) is to remove the duplicates authors in the exclude_list
         self.exclude_list = list(set(self.exclude_list))
 
-
         logging.info("\n -- Current author: " + self.name_author +
                      "\n -- Co-authors: " + ", ".join(self.coauthors) +
                      "\n -- Authors in exclude-list: "  + ", ".join(self.exclude_list) )
@@ -73,6 +72,7 @@ class Author:
     """
     def get_depth(self,name_author):
         depths = []
+        name_author = name_author.lower()
 
         for author in self.authors:
 
@@ -84,12 +84,12 @@ class Author:
             # on every author in self.authors
             else:
                 sons_depths = author.get_depth(name_author)
-                if sons_depths > -1:
+                if sons_depths > 0:
                     depths.append(sons_depths)
 
         if len(depths) > 0:
             return min(depths)
         else:
-            return -1
+            return 0
 
 
