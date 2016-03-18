@@ -6,11 +6,22 @@ import xmlParser
 import requests
 import json
 import re
-import Tree
 import logging
+import Tree
 
 publications = []
 
+
+# newlist = sorted(list_to_be_sorted, key=lambda k: k['name'])
+# https://stackoverflow.com/questions/72899/how-do-i-sort-a-list-of-dictionaries-by-values-of-the-dictionary-in-python
+
+"""
+    params:
+
+    return format:
+
+    errors possible:
+"""
 @route('/publications/<id:int>')
 def get_publication(id):
     min = 0
@@ -129,6 +140,8 @@ def search_publication(url):
 def distance_between_authors(name_origine,name_destination):
     does_name_origine_exists = False
     does_name_destination_exists = False
+    name_origine = name_origine.lower()
+    name_destination = name_destination.lower()
 
     # Verify if name_origine and name_destination exist
     for publication in publications:
@@ -145,25 +158,38 @@ def distance_between_authors(name_origine,name_destination):
     elif does_name_destination_exists == False:
         return json.dumps({ "error": "author_destination doesn't exist"})
 
-
+    """
     tree = Tree.Author(name_origine,[])
     tree.create_tree(publications)
     depth = tree.get_depth(name_destination)
+    """
+
+
 
     return json.dumps({"author_origine":name_origine,"author_destination":name_destination,"depth":depth})
 
 
 def parseFile():
     parser = xmlParser.XmlParser()
-    parser.parse("sample.xml",50)
+    #parser.parse("sample.xml",100)
+    parser.read_binaryMode()
     return parser.publications
-
 
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.ERROR)
-    publications = parseFile()
+    publications = parseFile()[:5000]
 
+    t = Tree.Tree(publications)
+    a = t.get_all_authors()
+    t.create_graph(a)
+    print(len(a))
+    print(t.find_shortest_path("E. F. Codd","C. J. Date" ))
+    print("done")
+
+    """
+    logging.info("Loaded: "+str(len(publications))+" publications.")
     response.content_type = 'application/json'
     port = int(os.environ.get('PORT', 8080))
     run(host='0.0.0.0', port=port, debug=True)
+    """

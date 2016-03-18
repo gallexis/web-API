@@ -20,6 +20,46 @@
 <cdrom>DS/DS1974/P179.pdf</cdrom>
 </inproceedings>
 
+     <article mdate="2002-01-03" key="persons/Codd81">
+
+<author>Alexis</author>
+    <author>codd</author>
+<title>dfghdh ghd gdfhddfh fhgfms.</title>
+<journal>IBM Research Report, San Jose, California</journal>
+<month>May</month>
+<year>1981</year>
+<volume>RJ3132</volume>
+<cdrom>ibmTR/rj3132.pdf</cdrom>
+<ee>db/labs/ibm/RJ3132.html</ee>
+</article>
+
+
+    <article mdate="2002-01-03" key="persons/Codd81">
+<author>Michael Ley</author>
+<author>Alexis</author>
+<title>dfghdh ghd gdfhddfh fhgfms.</title>
+<journal>IBM Research Report, San Jose, California</journal>
+<month>May</month>
+<year>1981</year>
+<volume>RJ3132</volume>
+<cdrom>ibmTR/rj3132.pdf</cdrom>
+<ee>db/labs/ibm/RJ3132.html</ee>
+</article>
+
+
+    <article mdate="2002-01-03" key="persons/Codd81">
+<author>Michael Ley</author>
+<author>rolanccd</author>
+<title>dfghdh ghd gdfhddfh fhgfms.</title>
+<journal>IBM Research Report, San Jose, California</journal>
+<month>May</month>
+<year>1981</year>
+<volume>RJ3132</volume>
+<cdrom>ibmTR/rj3132.pdf</cdrom>
+<ee>db/labs/ibm/RJ3132.html</ee>
+</article>
+
+
 <article mdate="2002-01-03" key="persons/CoddD74">
 <author>E. F. Codd</author>
 <author>C. J. Date</author>
@@ -66,6 +106,8 @@
 <article mdate="2002-01-03" key="persons/Codd81">
 <author>Michael Ley</author>
 <author>Alexis</author>
+    <author>roland</author>
+
 <title>dfghdh ghd gdfhddfh fhgfms.</title>
 <journal>IBM Research Report, San Jose, California</journal>
 <month>May</month>
@@ -110,7 +152,20 @@
 <author>Rita Ley</author>
 <author>Markus Casper</author>
 <author>Hugo Hellebrand</author>
-<author>Ralf Merz</author>
+<author>michael ley</author>
+    <author>roland</author>
+<title>Catchment classification by runoff behaviour with self-organizing maps (SOM)</title>
+<journal>Hydrology and Earth System Sciences</journal>
+<volume>15</volume>
+<pages>2947-2962</pages>
+<year>2011</year>
+<ee>http://dx.doi.org/10.5194/hess-15-2947-2011</ee>
+<url>http://dx.doi.org/10.5194/hess-15-2947-2011</url>
+</article>
+
+    <article mdate="2012-02-20" key="persons/LeyCHM11">
+<author>alexandre</author>
+<author>roland</author>
 <title>Catchment classification by runoff behaviour with self-organizing maps (SOM)</title>
 <journal>Hydrology and Earth System Sciences</journal>
 <volume>15</volume>
@@ -213,6 +268,51 @@
 <crossref>reference/algo/2008</crossref>
 <url>db/reference/algo/algo2008.html#Guerraoui08</url>
 </incollection>
+
+
+    <article mdate="2002-01-03" key="persons/Codd81">
+<author>Michael Ley</author>
+<author>Alexis</author>
+    <author>codd</author>
+<title>dfghdh ghd gdfhddfh fhgfms.</title>
+<journal>IBM Research Report, San Jose, California</journal>
+<month>May</month>
+<year>1981</year>
+<volume>RJ3132</volume>
+<cdrom>ibmTR/rj3132.pdf</cdrom>
+<ee>db/labs/ibm/RJ3132.html</ee>
+</article>
+
+
+    <article mdate="2002-01-03" key="persons/Codd81">
+<author>Michael Ley</author>
+<author>Alexis</author>
+    <author>roland</author>
+<title>dfghdh ghd gdfhddfh fhgfms.</title>
+<journal>IBM Research Report, San Jose, California</journal>
+<month>May</month>
+<year>1981</year>
+<volume>RJ3132</volume>
+<cdrom>ibmTR/rj3132.pdf</cdrom>
+<ee>db/labs/ibm/RJ3132.html</ee>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <www mdate="2009-06-09" key="homepages/23/934">
 <author>Gudrun Wagner</author>

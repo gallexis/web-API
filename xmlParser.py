@@ -1,6 +1,10 @@
 __author__ = 'alexisgallepe'
 import xml.sax
 from datetime import date
+try:
+    import cPickle as pickle
+except:
+    import pickle
 
 class XmlParser(xml.sax.ContentHandler):
     def __init__(self):
@@ -46,8 +50,7 @@ class XmlParser(xml.sax.ContentHandler):
 
                 # if (2016 - 5) <= 2001  ---> False
                 if not self.publication["year"] == '' and (date.today().year - self.last_years_wanted) <= int(self.publication["year"]):
-                    self.publications.append(self.publication)
-                    self.publication = {"authors":[], "title":"", "year":"", "journal":"","booktitle":""}
+                    self.save_binaryMode(self.publication)
 
                 self.authors = []
 
@@ -70,3 +73,20 @@ class XmlParser(xml.sax.ContentHandler):
         except Exception as e:
             print(e)
             pass
+
+    def save_binaryMode(self,publication):
+        with open("publications.bin",'ab') as fp:
+            try:
+                pickle.dump(publication,fp,pickle.HIGHEST_PROTOCOL)
+                self.publication = {"authors":[], "title":"", "year":"", "journal":"","booktitle":""}
+
+            except Exception as e:
+                print("error save_binaryMode: ",e)
+
+    def read_binaryMode(self):
+        with open("publications.bin",'rb') as fp:
+            while True:
+                try:
+                    self.publications.append(pickle.load(fp))
+                except EOFError:
+                    break
