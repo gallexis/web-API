@@ -37,8 +37,8 @@ class Author:
 
     """
         Recursive function that creates the tree of authors.
-        It creates a class "Author" for every co-author in self.coauthors,
-            then call create_tree on this class,
+        It creates an object "Author" for every co-author in self.coauthors,
+            then call create_tree on this object,
             and add +1 to the depth
 
         self.exclude_list is here to avoid infinite loops, by excluding authors

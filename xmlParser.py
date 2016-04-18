@@ -61,7 +61,7 @@ class XmlParser(xml.sax.ContentHandler):
             print(e)
             pass
 
-
+#  ???????????????????????
     def characters(self, content):
         try:
             if not self.publicationBalise == "" and self.fieldBalise == "author":
