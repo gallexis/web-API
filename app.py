@@ -158,12 +158,10 @@ def distance_between_authors(name_origine,name_destination):
     elif does_name_destination_exists == False:
         return json.dumps({ "error": "author_destination doesn't exist"})
 
-    """
+
     tree = Tree.Author(name_origine,[])
     tree.create_tree(publications)
     depth = tree.get_depth(name_destination)
-    """
-
 
 
     return json.dumps({"author_origine":name_origine,"author_destination":name_destination,"depth":depth})
@@ -184,8 +182,8 @@ if __name__ == '__main__':
     a = t.get_all_authors()
     t.create_graph(a)
     print(len(a))
-    print(t.find_shortest_path("E. F. Codd","C. J. Date" ))
-    print("done")
+    print(t.find_shortest_path("Oliver Gronz","Markus Casper" ))
+
 
     """
     logging.info("Loaded: "+str(len(publications))+" publications.")

@@ -40,7 +40,7 @@ class Tree:
             end = end.lower()
 
             path = path + [start]
-            print(path)
+
             if start == end:
                 return path
             if not start in self.graph:
@@ -54,4 +54,3 @@ class Tree:
                         if not shortest or len(newpath) < len(shortest):
                             shortest = newpath
             return shortest
-

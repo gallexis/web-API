@@ -34,6 +34,7 @@ class Author:
 
         self.coauthors = list(coauthors)
 
+
     """
         Recursive function that creates the tree of authors.
         It creates a class "Author" for every co-author in self.coauthors,
@@ -41,9 +42,7 @@ class Author:
             and add +1 to the depth
 
         self.exclude_list is here to avoid infinite loops, by excluding authors
-        who are already members of the tree
-
-
+        who are already member of the tree
     """
     def create_tree(self,publications):
 
@@ -65,7 +64,6 @@ class Author:
             t = Author(author, self.exclude_list, self.depth + 1)
             t.create_tree(publications)
             self.authors.append(t)
-
 
 
     """
@@ -94,5 +92,3 @@ class Author:
             return min(depths)
         else:
             return 0
-
-
