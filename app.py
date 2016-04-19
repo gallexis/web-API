@@ -108,8 +108,7 @@ def verify_parameters(keysValues,publication):
             if not publication[key] == value:
                 return False
 
-        except Exception as e:
-            print(e)
+        except:
             return False
 
     return True
@@ -175,19 +174,19 @@ def parseFile():
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.ERROR)
-    publications = parseFile()[:5000]
+    logging.basicConfig(level=logging.WARNING)
+    publications = parseFile()
 
+    """
     t = Tree.Tree(publications)
     a = t.get_all_authors()
     t.create_graph(a)
     print(len(a))
     print(t.find_shortest_path("Oliver Gronz","Markus Casper" ))
 
-
     """
+
     logging.info("Loaded: "+str(len(publications))+" publications.")
     response.content_type = 'application/json'
     port = int(os.environ.get('PORT', 8080))
     run(host='0.0.0.0', port=port, debug=True)
-    """
