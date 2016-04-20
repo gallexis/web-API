@@ -3,7 +3,6 @@ __author__ = 'alexisgallepe'
 import os
 from bottle import route, run, request, response, template, abort
 import xmlParser
-import requests
 import json
 import re
 import logging
@@ -56,7 +55,8 @@ def get_author_publications(author_name):
         if author_name in publication["authors"]:
             list_publications.append(publication["title"])
 
-    return json.dumps({ "author":author_name , "publications":list_publications })
+    start,count = filter(request)
+    return json.dumps({ "author":author_name , "publications":list_publications[start:(start+count)] })
 
 
 @route('/authors/<author_name>/coauthors')
@@ -75,7 +75,9 @@ def get_coauthors(author_name):
     except:
         return json.dumps({ "error": "author does not exist"})
 
-    return json.dumps({ "author":author_name , "coauthors": list(list_coauthors) })
+    start,count = filter(request)
+    return json.dumps({ "author":author_name , "coauthors": list(list_coauthors)[start:(start+count)] })
+
 
 
 @route('/search/authors/<searchString>')
@@ -89,7 +91,26 @@ def search_authors(searchString):
             if re.match(regex, author.lower()):
                 matchs.add( author )
 
-    return json.dumps( {"authors": list(matchs)} )
+    start,count = filter(request)
+    return json.dumps( {"authors": list(matchs)[start:(start+count)] } )
+
+
+# function used to add filters in the URL (start and/or count)
+def filter(request):
+    start = 0
+    count = 100
+
+    try:
+        start = int(request.query["start"])
+    except:
+        pass
+
+    try:
+        count = int(request.query["count"])
+    except:
+        pass
+
+    return (start,count)
 
 # Used in search_publication() to verify if keys:values are correct
 def verify_parameters(keysValues,publication):
@@ -157,11 +178,9 @@ def distance_between_authors(name_origine,name_destination):
     elif does_name_destination_exists == False:
         return json.dumps({ "error": "author_destination doesn't exist"})
 
-
     tree = Tree.Author(name_origine,[])
     tree.create_tree(publications)
     depth = tree.get_depth(name_destination)
-
 
     return json.dumps({"author_origine":name_origine,"author_destination":name_destination,"depth":depth})
 
@@ -176,17 +195,8 @@ def parseFile():
 if __name__ == '__main__':
     logging.basicConfig(level=logging.WARNING)
     publications = parseFile()
-
-    """
-    t = Tree.Tree(publications)
-    a = t.get_all_authors()
-    t.create_graph(a)
-    print(len(a))
-    print(t.find_shortest_path("Oliver Gronz","Markus Casper" ))
-
-    """
-
     logging.info("Loaded: "+str(len(publications))+" publications.")
+
     response.content_type = 'application/json'
     port = int(os.environ.get('PORT', 8080))
     run(host='0.0.0.0', port=port, debug=True)

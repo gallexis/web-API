@@ -1,56 +1,94 @@
 __author__ = 'alexisgallepe'
 
+import logging
 
-class Tree:
+class Author:
 
-    def __init__(self,publications):
-        self.graph = {}
-        self.publications = publications
+    def __init__(self,name_author, exclude_list, depth=1):
+        self.name_author = name_author.lower()
+        self.depth = depth
 
-    def get_all_authors(self):
-        authors_set = set()
+        self.exclude_list = exclude_list
+        self.exclude_list.append(name_author)
 
-        for publication in self.publications:
-            for author in publication["authors"]:
-                authors_set.add(author)
+        self.coauthors = []
+        self.authors = []
 
-        return list(authors_set)
+    """
+        Put in self.coauthors every co-author of self.nameAuthor
+    """
+    def set_all_coauthors(self, publications):
+        coauthors = set()
+
+        for publication in publications:
+            if self.name_author in publication["authors"]:
+
+                for author in publication["authors"]:
+                    if author not in self.exclude_list:
+                        coauthors.add(author)
+
+        try:
+            coauthors.remove(self.name_author)
+        except:
+            pass
+
+        self.coauthors = list(coauthors)
 
 
-    def create_graph(self, authors):
+    """
+        Recursive function that creates the tree of authors.
+        It creates an object "Author" for every co-author in self.coauthors,
+            then call create_tree on this object,
+            and add +1 to the depth
 
-        for author in authors:
-            coauthors_set = set()
+        self.exclude_list is here to avoid infinite loops, by excluding authors
+        who are already member of the tree
+    """
+    def create_tree(self,publications):
 
-            for publication in self.publications:
-                if author in publication["authors"]:
+        self.set_all_coauthors(publications)
+        if len(self.coauthors) == 0:
+            return
 
-                    for a in publication["authors"]:
-                        coauthors_set.add(a)
+        self.exclude_list += self.coauthors
 
-            try:
-                coauthors_set.remove(author)
-            except:
-                pass
+        # list( set(  .. ) ) is to remove the duplicates authors in the exclude_list
+        self.exclude_list = list(set(self.exclude_list))
+        print(self.coauthors)
 
-            self.graph[author] = list(coauthors_set)
+        logging.info("\n -- Current author: " + self.name_author +
+                     "\n -- Co-authors: " + ", ".join(self.coauthors) +
+                     "\n -- Authors in exclude-list: "  + ", ".join(self.exclude_list) )
 
-    def find_shortest_path(self, start, end, path=[]):
-            start = start.lower()
-            end = end.lower()
+        for author in self.coauthors:
+            t = Author(author, self.exclude_list, self.depth + 1)
+            t.create_tree(publications)
+            self.authors.append(t)
 
-            path = path + [start]
 
-            if start == end:
-                return path
-            if not start in self.graph:
-                return None
+    """
+        Once we have our Tree, we can call this recursive method to get the distance
+        (the depth in our tree) between self.name_author and name_author
+    """
+    def get_depth(self,name_author):
+        depths = []
+        name_author = name_author.lower()
 
-            shortest = None
-            for node in self.graph[start]:
-                if node not in path:
-                    newpath = self.find_shortest_path( node, end, path)
-                    if newpath:
-                        if not shortest or len(newpath) < len(shortest):
-                            shortest = newpath
-            return shortest
+        for author in self.authors:
+
+            # Get the depth from every author in self.authors if names match
+            if author.name_author == name_author:
+                depths.append(self.depth)
+
+            # If names don't match, do a recursive call
+            # on every author in self.authors
+            else:
+                sons_depths = author.get_depth(name_author)
+                if sons_depths > 0:
+                    depths.append(sons_depths)
+
+        if len(depths) > 0:
+            print(min(depths))
+            return min(depths)
+        else:
+            return 0
