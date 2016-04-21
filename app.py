@@ -43,6 +43,26 @@ def sorting(request,list,start=0,count=0):
 
     return list
 
+def restrict_fields(request,list_elt):
+    newLst = []
+    tmpDict = {}
+
+    try:
+        fields = request.query["fields"].lower().split(",")
+
+        for elt in list_elt:
+            for key in elt.keys():
+                if key in fields:
+                    tmpDict[key] = elt[key]
+
+            newLst.append(tmpDict)
+            tmpDict = {}
+
+    except:
+        return list_elt
+
+    return newLst
+
 # Used in search_publication() to verify if keys:values are correct
 def verify_parameters(keysValues,publication):
     if keysValues == []:
@@ -74,8 +94,6 @@ def publication_exists(name_publication,publication_title):
         return False
 
 #------------------------------
-
-
 
 """
     params:
@@ -120,6 +138,8 @@ def get_author_publications(author_name):
 
     start,count = filterUrl_start_count(request)
     list_publications = sorting(request,list_publications,start,count)
+    list_publications = restrict_fields(request,list_publications)
+
     return json.dumps({ "author":author_name , "publications": list_publications})
 
 
@@ -144,7 +164,6 @@ def get_coauthors(author_name):
     return json.dumps({ "author":author_name , "coauthors": list_coauthors })
 
 
-
 @route('/search/authors/<searchString>')
 def search_authors(searchString):
     matchs = set()
@@ -158,7 +177,6 @@ def search_authors(searchString):
 
     start,count = filterUrl_start_count(request)
     return json.dumps( {"authors": list(matchs)[start:(start+count)] } )
-
 
 
 
@@ -184,7 +202,10 @@ def search_publication(name_publication):
             matchs.append(publication)
 
     start,count = filterUrl_start_count(request)
-    return json.dumps( {"publications": matchs[start:(start+count)] } )
+    matchs = sorting(request,matchs,start,count)
+    matchs = restrict_fields(request,matchs)
+
+    return json.dumps( {"publications": matchs } )
 
 
 @route('/authors/<name_origine>/distance/<name_destination>')
