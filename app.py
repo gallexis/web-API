@@ -10,9 +10,72 @@ import Tree
 
 publications = []
 
+#------------------------------
 
-# newlist = sorted(list_to_be_sorted, key=lambda k: k['name'])
-# https://stackoverflow.com/questions/72899/how-do-i-sort-a-list-of-dictionaries-by-values-of-the-dictionary-in-python
+# function used to add filters in the URL (start and/or count)
+def filterUrl_start_count(request):
+    start = 0
+    count = 100
+    try:
+        start = int(request.query["start"])
+    except:
+        pass
+
+    try:
+        count = int(request.query["count"])
+    except:
+        pass
+
+    return (start,count)
+
+
+def sorting(request,list,start=0,count=0):
+    list = list[start:(start+count)]
+
+    try:
+        order = request.query["order"]
+        list = sorted(list, key=lambda k: k[order])
+    except:
+        try:
+            list = sorted(list)
+        except:
+            pass
+
+    return list
+
+# Used in search_publication() to verify if keys:values are correct
+def verify_parameters(keysValues,publication):
+    if keysValues == []:
+        return True
+
+    for key,value in keysValues:
+        try:
+            #Autor is a particular case
+            if key == "author":
+                if not value in publication["authors"]:
+                    return False
+                else:
+                    continue
+
+            if not publication[key] == value:
+                return False
+        except:
+            return False
+
+    return True
+
+def publication_exists(name_publication,publication_title):
+    regex = name_publication.replace("%","(.)").replace("*","(.)*").lower()
+    title = publication_title.lower()
+
+    if re.match(regex, title) or name_publication==title:
+        return True
+    else:
+        return False
+
+#------------------------------
+
+
 
 """
     params:
@@ -53,10 +116,11 @@ def get_author_publications(author_name):
 
     for publication in publications:
         if author_name in publication["authors"]:
-            list_publications.append(publication["title"])
+            list_publications.append(publication)
 
-    start,count = filter(request)
-    return json.dumps({ "author":author_name , "publications":list_publications[start:(start+count)] })
+    start,count = filterUrl_start_count(request)
+    list_publications = sorting(request,list_publications,start,count)
+    return json.dumps({ "author":author_name , "publications": list_publications})
 
 
 @route('/authors/<author_name>/coauthors')
@@ -75,8 +139,9 @@ def get_coauthors(author_name):
     except:
         return json.dumps({ "error": "author does not exist"})
 
-    start,count = filter(request)
-    return json.dumps({ "author":author_name , "coauthors": list(list_coauthors)[start:(start+count)] })
+    start,count = filterUrl_start_count(request)
+    list_coauthors = sorting(request,list(list_coauthors),start,count)
+    return json.dumps({ "author":author_name , "coauthors": list_coauthors })
 
 
 
@@ -91,57 +156,11 @@ def search_authors(searchString):
             if re.match(regex, author.lower()):
                 matchs.add( author )
 
-    start,count = filter(request)
+    start,count = filterUrl_start_count(request)
     return json.dumps( {"authors": list(matchs)[start:(start+count)] } )
 
 
-# function used to add filters in the URL (start and/or count)
-def filter(request):
-    start = 0
-    count = 100
 
-    try:
-        start = int(request.query["start"])
-    except:
-        pass
-
-    try:
-        count = int(request.query["count"])
-    except:
-        pass
-
-    return (start,count)
-
-# Used in search_publication() to verify if keys:values are correct
-def verify_parameters(keysValues,publication):
-    if keysValues == []:
-        return True
-
-    for key,value in keysValues:
-        try:
-            #Autor is a particular case
-            if key == "author":
-                if not value in publication["authors"]:
-                    return False
-                else:
-                    continue
-
-            if not publication[key] == value:
-                return False
-
-        except:
-            return False
-
-    return True
-
-def publication_exists(name_publication,publication_title):
-    regex = name_publication.replace("%","(.)").replace("*","(.)*").lower()
-    title = publication_title.lower()
-
-    if re.match(regex, title) or name_publication==title:
-        return True
-    else:
-        return False
 
 @route('/search/publications/<name_publication>')
 def search_publication(name_publication):
@@ -164,7 +183,7 @@ def search_publication(name_publication):
         if publication_exists(name_publication,publication["title"]) and verify_parameters(keysValues,publication):
             matchs.append(publication)
 
-    start,count = filter(request)
+    start,count = filterUrl_start_count(request)
     return json.dumps( {"publications": matchs[start:(start+count)] } )
 
 
@@ -202,7 +221,6 @@ def parseFile():
     #parser.parse("sample.xml",100)
     parser.read_binaryMode()
     return parser.publications
-
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.WARNING)
