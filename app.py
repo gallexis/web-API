@@ -134,11 +134,21 @@ def verify_parameters(keysValues,publication):
 
     return True
 
+def publication_exists(name_publication,publication_title):
+    regex = name_publication.replace("%","(.)").replace("*","(.)*").lower()
+    title = publication_title.lower()
 
-@route('/search/publications/<url>')
-def search_publication(url):
+    if re.match(regex, title) or name_publication==title:
+        return True
+    else:
+        return False
+
+@route('/search/publications/<name_publication>')
+def search_publication(name_publication):
+
     keysValues = []
-    url = url.lower()
+    name_publication = name_publication.lower()
+    matchs = []
 
     try:
         parameters = request.query["filter"].lower()
@@ -147,13 +157,15 @@ def search_publication(url):
         for i,key_value in enumerate(keysValues):
             key,value = key_value.split(':')
             keysValues[i] = (key,value)
-
     except:
         pass
 
     for publication in publications:
-        if url in publication["title"] and verify_parameters(keysValues,publication):
-            return json.dumps(publication)
+        if publication_exists(name_publication,publication["title"]) and verify_parameters(keysValues,publication):
+            matchs.append(publication)
+
+    start,count = filter(request)
+    return json.dumps( {"publications": matchs[start:(start+count)] } )
 
 
 @route('/authors/<name_origine>/distance/<name_destination>')
