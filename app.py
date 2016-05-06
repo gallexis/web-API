@@ -205,7 +205,8 @@ def search_authors(searchString):
                 matchs.add( author )
 
     start,count = filterUrl_start_count(request)
-    return json.dumps( {"authors": list(matchs)[start:(start+count)] } )
+    matchs = sorting(request,list(matchs),start,count)
+    return json.dumps( {"authors": matchs } )
 
 
 
