@@ -283,8 +283,8 @@ def distance_between_authors(name_origine,name_destination):
 
 def parseFile():
     parser = xmlParser.XmlParser()
-    #parser.parse("sample.xml",100)
-    parser.read_binaryMode()
+    #parser.read_binaryMode("publications_big.bin")
+    parser.read_binaryMode("publications.bin")
     return parser.publications
 
 if __name__ == '__main__':

@@ -88,7 +88,6 @@ class Author:
                     depths.append(sons_depths)
 
         if len(depths) > 0:
-            print(min(depths))
             return min(depths)
         else:
             return 0

@@ -83,8 +83,8 @@ class XmlParser(xml.sax.ContentHandler):
             except Exception as e:
                 print("error save_binaryMode: ",e)
 
-    def read_binaryMode(self):
-        with open("publications.bin",'rb') as fp:
+    def read_binaryMode(self,file):
+        with open(file,'rb') as fp:
             while True:
                 try:
                     self.publications.append(pickle.load(fp))
