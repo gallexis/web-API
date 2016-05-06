@@ -11,7 +11,6 @@ import Tree
 publications = []
 
 #------------------------------
-
 # function used to add filters in the URL (start and/or count)
 def filterUrl_start_count(request):
     start = 0
@@ -95,12 +94,14 @@ def publication_exists(name_publication,publication_title):
 
 #------------------------------
 
+
+
 """
-    params:
+    Parametre(s): id de publication <int>
 
-    return format:
+    Format de retour: publications <JSON>
 
-    errors possible:
+    Erreurs possibles: <JSON>
 """
 @route('/publications/<id:int>')
 def get_publication(id):
@@ -113,6 +114,13 @@ def get_publication(id):
         return json.dumps({ "error": "problem with id parameter" })
 
 
+"""
+    Parametre(s): Nom d'un auteur <string>
+
+    Format de retour: Nombre de publications, nombre co-auteurs <JSON>
+
+    Erreurs possibles: S'il n'y a pas d'auteur, retourne une structure vide <JSON>
+"""
 @route('/authors/<author_name>')
 def get_author_infos(author_name):
     nb_publications = 0
@@ -126,7 +134,14 @@ def get_author_infos(author_name):
 
     return json.dumps({ "number_publications":nb_publications , "number_co_authors":nb_co_authors })
 
-# ?? return uniquement les titles ??
+
+"""
+    Parametre(s): Nom d'un auteur <string>
+
+    Format de retour:  Auteur, Publications <JSON>
+
+    Erreurs possibles: S'il n'y a pas d'auteur ou publication, retourne une structure vide <JSON>
+"""
 @route('/authors/<author_name>/publications')
 def get_author_publications(author_name):
     list_publications = []
@@ -143,6 +158,13 @@ def get_author_publications(author_name):
     return json.dumps({ "author":author_name , "publications": list_publications})
 
 
+"""
+    Parametre(s): Nom d'un auteur <string>
+
+    Format de retour:  Auteur, Co-auteur <JSON>
+
+    Erreur possible: l'auteur n'existe pas <JSON>
+"""
 @route('/authors/<author_name>/coauthors')
 def get_coauthors(author_name):
     list_coauthors = set()
@@ -164,6 +186,13 @@ def get_coauthors(author_name):
     return json.dumps({ "author":author_name , "coauthors": list_coauthors })
 
 
+"""
+    Parametre(s): Nom d'un auteur (regex autorisées) <string>
+
+    Format de retour:  Auteurs <JSON>
+
+    Erreurs possibles: S'il n'y a pas d'auteur ou publication, retourne une structure vide <JSON>
+"""
 @route('/search/authors/<searchString>')
 def search_authors(searchString):
     matchs = set()
@@ -180,6 +209,13 @@ def search_authors(searchString):
 
 
 
+"""
+    Parametre(s): Titre d'une publication <string>
+
+    Format de retour:  Publications <JSON>
+
+    Erreurs possibles: S'il n'y a pas d'auteur ou publication, retourne une structure vide <JSON>
+"""
 @route('/search/publications/<name_publication>')
 def search_publication(name_publication):
 
@@ -208,6 +244,13 @@ def search_publication(name_publication):
     return json.dumps( {"publications": matchs } )
 
 
+"""
+    Parametre(s): Nom d'un auteur <string> & Nom d'un autre auteur <string>
+
+    Format de retour:  Auteur, Auteur, Profondeur <JSON>
+
+    Erreurs possibles: Auteur d'origine ou de destination ou les deux n'existent pas <JSON>
+"""
 @route('/authors/<name_origine>/distance/<name_destination>')
 def distance_between_authors(name_origine,name_destination):
     does_name_origine_exists = False
