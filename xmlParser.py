@@ -36,8 +36,7 @@ class XmlParser(xml.sax.ContentHandler):
             if name in self.fields_index:
                 self.fieldBalise = name
 
-        except Exception as e:
-            print(e)
+        except:
             pass
 
     def endElement(self, name):
@@ -48,7 +47,7 @@ class XmlParser(xml.sax.ContentHandler):
 
                 self.publication["authors"] = self.authors
 
-                # if (2016 - 5) <= 2001  ---> False
+                # if (2016 - 5) <= 2011  ---> False
                 if not self.publication["year"] == '' and (date.today().year - self.last_years_wanted) <= int(self.publication["year"]):
                     self.save_binaryMode(self.publication)
 
@@ -57,21 +56,7 @@ class XmlParser(xml.sax.ContentHandler):
             if self.fieldBalise == name:
                 self.fieldBalise = ""
 
-        except Exception as e:
-            print(e)
-            pass
-
-#  ???????????????????????
-    def characters(self, content):
-        try:
-            if not self.publicationBalise == "" and self.fieldBalise == "author":
-                self.authors.append(content.lower())
-
-            if not self.fieldBalise == "" and not self.fieldBalise == "author":
-                self.publication[self.fieldBalise] = content.lower()
-
-        except Exception as e:
-            print(e)
+        except:
             pass
 
     def save_binaryMode(self,publication):

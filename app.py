@@ -69,7 +69,7 @@ def verify_parameters(keysValues,publication):
 
     for key,value in keysValues:
         try:
-            #Autor is a particular case
+            #Author is a particular case
             if key == "author":
                 if not value in publication["authors"]:
                     return False
@@ -288,7 +288,7 @@ def parseFile():
     return parser.publications
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.WARNING)
+    logging.basicConfig(level=logging.INFO)
     publications = parseFile()
     logging.info("Loaded: "+str(len(publications))+" publications.")
 
